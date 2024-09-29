@@ -1,25 +1,26 @@
 package com.example.demo.service;
 
-import com.example.demo.model.database;
-import com.example.demo.repository.DailyDetailRespository;
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import com.example.demo.model.DailyDetail;
+import com.example.demo.repository.DailyDetailRepository;
 
 @Service
 public class DailyDetailService {
 
-    private final DailyDetailRespository DailyDetailRespository;
+    private final DailyDetailRepository DailyDetailRepository;
 
-    public ItemService(DailyDetailRespository DailyDetailRespository) {
-        this.DailyDetailRespository = DailyDetailRespository;
+    public DailyDetailService(DailyDetailRepository DailyDetailRepository) {
+        this.DailyDetailRepository = DailyDetailRepository;
     }
 
-    public List<Item> getAllItems() {
-        return DailyDetailRespository.findAll();
+    public List<DailyDetail> getAllDailyDetails() {
+        return DailyDetailRepository.findAll();
     }
 
-    public Item saveItem(Item item) {
-        return DailyDetailRespository.save(item);
+    public DailyDetail saveDailyDetail(DailyDetail DailyDetail) {
+        return DailyDetailRepository.save(DailyDetail);
     }
 }
