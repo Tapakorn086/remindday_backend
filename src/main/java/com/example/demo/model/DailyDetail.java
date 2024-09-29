@@ -4,7 +4,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-
 @Entity
 public class DailyDetail {
 
@@ -14,5 +13,11 @@ public class DailyDetail {
     private String title;
     private String description;
 
-    // Constructors, Getters and Setters
+    public DailyDetail() {}
+
+    public DailyDetail(String title, String description) {
+        this.title = title;
+        this.description = description;
+    }
+
 }

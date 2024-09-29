@@ -6,11 +6,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 import com.example.demo.model.DailyDetail;
 import com.example.demo.service.DailyDetailService;
 
 @RestController
-@RequestMapping("/api/DailyDetails")
+@RequestMapping("/api/dailyDetails")
 public class DailyDetailController {
 
     private final DailyDetailService DailyDetailService;
@@ -27,5 +28,10 @@ public class DailyDetailController {
     @PostMapping
     public DailyDetail saveDailyDetail(@RequestBody DailyDetail DailyDetail) {
         return DailyDetailService.saveDailyDetail(DailyDetail);
+    }
+
+    @GetMapping("/test")
+    public String test() {
+        return "DailyDetailController is working!";
     }
 }
