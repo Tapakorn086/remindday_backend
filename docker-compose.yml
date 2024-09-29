@@ -1,0 +1,30 @@
+services:
+  postgres:
+    image: postgres:latest
+    container_name: postgres
+    environment:
+      POSTGRES_DB: remind_db
+      POSTGRES_USER: remind_db
+      POSTGRES_PASSWORD: ReMinD$TermPro0Ject
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: backend
+    environment:
+      SPRING_APPLICATION_NAME: backend_app
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/remind_db
+      SPRING_DATASOURCE_USERNAME: remind_db
+      SPRING_DATASOURCE_PASSWORD: ReMinD$TermPro0Ject
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+
+volumes:
+  postgres_data:
