@@ -3,9 +3,9 @@ services:
     image: postgres:16
     container_name: postgres-db
     environment:
-      POSTGRES_DB: remind_db
-      POSTGRES_USER: remind_db
-      POSTGRES_PASSWORD: ReMinD-TermPro0Ject-Gr0-u-P
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     ports:
       - "5432:5432"
     volumes:
@@ -17,10 +17,10 @@ services:
     build: .
     container_name: springboot-app
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-db:5432/remind_db
-      SPRING_DATASOURCE_USERNAME: remind_db
-      SPRING_DATASOURCE_PASSWORD: ReMinD-TermPro0Ject-Gr0-u-P
-      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      SPRING_DATASOURCE_URL: ${SPRING_DATASOURCE_URL}
+      SPRING_DATASOURCE_USERNAME: ${SPRING_DATASOURCE_USERNAME}
+      SPRING_DATASOURCE_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
+      SPRING_JPA_HIBERNATE_DDL_AUTO: ${SPRING_JPA_HIBERNATE_DDL_AUTO}
     ports:
       - "8080:8080"
     depends_on:
