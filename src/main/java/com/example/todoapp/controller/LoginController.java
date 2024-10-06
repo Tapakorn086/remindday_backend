@@ -28,8 +28,8 @@ public class LoginController {
     }
 
     @GetMapping("/login")
-    public Login findLoginData(@RequestParam String email, @RequestParam String password) {
-        return loginservice.findByEmailAndPassword(email, password);
+    public Long findLoginData(@RequestParam String email, @RequestParam String password) {
+        return loginservice.login(email, password);
     }
 
 }
