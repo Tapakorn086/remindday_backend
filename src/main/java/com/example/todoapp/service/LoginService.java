@@ -17,4 +17,8 @@ public class LoginService {
     public Login createRegister(Login data) {
         return loginRepository.save(data);
     }
+
+    public Login findByEmailAndPassword(String email, String password) {
+        return loginRepository.findByEmailAndPassword(email, password);
+    }
 }
