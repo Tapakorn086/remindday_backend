@@ -1,30 +1,35 @@
 services:
-  postgres:
-    image: postgres:latest
-    container_name: postgres
+  postgres-db:
+    image: postgres:16
+    container_name: postgres-db
     environment:
-      POSTGRES_DB: ${POSTGRES_DB}
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: remind_db
+      POSTGRES_USER: remind_db
+      POSTGRES_PASSWORD: ReMinD-TermPro0Ject-Gr0-u-P
     ports:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    networks:
+      - spring-boot-network
 
-  backend:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    container_name: backend
+  springboot-app:
+    build: .
+    container_name: springboot-app
     environment:
-      SPRING_APPLICATION_NAME: ${SPRING_APPLICATION_NAME}
-      SPRING_DATASOURCE_URL: ${SPRING_DATASOURCE_URL}
-      SPRING_DATASOURCE_USERNAME: ${SPRING_DATASOURCE_USERNAME}
-      SPRING_DATASOURCE_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-db:5432/remind_db
+      SPRING_DATASOURCE_USERNAME: remind_db
+      SPRING_DATASOURCE_PASSWORD: ReMinD-TermPro0Ject-Gr0-u-P
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
     ports:
       - "8080:8080"
     depends_on:
-      - postgres
+      - postgres-db
+    networks:
+      - spring-boot-network
 
 volumes:
   postgres_data:
+
+networks:
+  spring-boot-network:
