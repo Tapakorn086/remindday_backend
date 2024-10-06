@@ -18,7 +18,11 @@ public class LoginService {
         return loginRepository.save(data);
     }
 
-    public Login findByEmailAndPassword(String email, String password) {
-        return loginRepository.findByEmailAndPassword(email, password);
+    public Long login(String email, String password) {
+        Login login = loginRepository.findByEmailAndPassword(email, password);
+        if (login != null) {
+            return login.getId(); 
+        }
+        return null; 
     }
 }
