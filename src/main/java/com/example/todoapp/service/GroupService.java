@@ -1,6 +1,7 @@
 package com.example.todoapp.service;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
@@ -36,6 +37,10 @@ public class GroupService {
         data.setMembers(members);
         groupRepository.save(data);
         return data;
+    }
+
+    public List<Group> findGroupsByUserId(Long userId) {
+        return groupRepository.findByMembersId(userId);
     }
 
     private String generateUniqueReferralCode() {
