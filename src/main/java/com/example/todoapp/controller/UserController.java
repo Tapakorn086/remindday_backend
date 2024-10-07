@@ -10,7 +10,7 @@ import com.example.todoapp.model.User;
 import com.example.todoapp.service.UserService;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/user")
 public class UserController {
         private final UserService userService;
 
@@ -19,7 +19,7 @@ public class UserController {
         this.userService = userService;
     }
 
-    @PostMapping("/register/user")
+    @PostMapping("/register")
     public User saveRegisterData(@RequestBody User data) {
         return userService.createUser(data);
     }

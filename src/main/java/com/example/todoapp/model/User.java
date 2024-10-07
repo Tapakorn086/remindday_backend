@@ -1,15 +1,9 @@
 package com.example.todoapp.model;
-import java.util.Set;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
 
+import java.util.Set;
+import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "users")
@@ -17,19 +11,28 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
+
     private String username;
     private Integer age;
     private String gender;
-    
+
+    @JsonManagedReference
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "login_id", referencedColumnName = "id")
     private Login login;
-    
-    @ManyToMany(mappedBy = "members")
-    private Set<Group> groups;
 
+    @JsonIgnore
+    @ManyToMany(mappedBy = "members", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    private Set<Group> groups;
     // Getters and setters
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getUsername() {
         return username;
@@ -55,14 +58,6 @@ public class User {
         this.gender = gender;
     }
 
-    public Set<Group> getGroups() {
-        return groups;
-    }
-
-    public void setGroups(Set<Group> groups) {
-        this.groups = groups;
-    }
-
     public Login getLogin() {
         return login;
     }
@@ -71,11 +66,11 @@ public class User {
         this.login = login;
     }
 
-    public Long getId() {
-        return id;
+    public Set<Group> getGroups() {
+        return groups;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setGroups(Set<Group> groups) {
+        this.groups = groups;
     }
 }
