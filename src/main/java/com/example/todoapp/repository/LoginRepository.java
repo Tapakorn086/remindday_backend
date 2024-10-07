@@ -8,5 +8,4 @@ import com.example.todoapp.model.Login;
 public interface LoginRepository extends JpaRepository<Login, Long> {
     Login findByEmailAndPassword(String email, String password);
 
-    public Login findByEmailAndPasswordEmailAndPassword(String email, String password);
 }
