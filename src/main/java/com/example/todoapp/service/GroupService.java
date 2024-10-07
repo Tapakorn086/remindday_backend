@@ -13,6 +13,8 @@ import com.example.todoapp.model.Group;
 import com.example.todoapp.model.User;
 import com.example.todoapp.repository.UserRepository;
 
+import jakarta.transaction.Transactional;
+
 @Service
 public class GroupService {
 
@@ -41,6 +43,31 @@ public class GroupService {
 
     public List<Group> findGroupsByUserId(Long userId) {
         return groupRepository.findByMembersId(userId);
+    }
+
+    @Transactional
+    public void joinGroup(String referralCode, Long userId) {
+        Group group = groupRepository.findByReferralCode(referralCode);
+        if (group == null) {
+            throw new RuntimeException("Group not found");
+        }
+
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        if (group.getMembers().contains(user)) {
+            throw new RuntimeException("User is already a member of this group");
+        }
+
+        group.getMembers().add(user);
+
+        if (user.getGroups() == null) {
+            user.setGroups(new HashSet<>());
+        }
+        user.getGroups().add(group);
+
+        groupRepository.save(group);
+        userRepository.save(user);
     }
 
     private String generateUniqueReferralCode() {

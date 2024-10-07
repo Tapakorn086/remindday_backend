@@ -17,6 +17,7 @@ import com.example.todoapp.service.GroupService;
 @RestController
 @RequestMapping("/api/group")
 public class GroupController {
+
     private final GroupService groupservice;
 
     @Autowired
@@ -29,9 +30,33 @@ public class GroupController {
         return groupservice.createGroup(data);
     }
 
-@GetMapping("/getGroupByUserId/{userId}")
-public ResponseEntity<List<Group>> getGroupDataByUserId(@PathVariable Long userId) {
-    List<Group> groups = groupservice.findGroupsByUserId(userId);
-    return ResponseEntity.ok(groups);
+    @GetMapping("/getGroupByUserId/{userId}")
+    public ResponseEntity<List<Group>> getGroupDataByUserId(@PathVariable Long userId) {
+        List<Group> groups = groupservice.findGroupsByUserId(userId);
+        return ResponseEntity.ok(groups);
+    }
+    @PostMapping("/joinGroup")
+    public ResponseEntity<?> joinGroup(@RequestBody JoinGroupRequest request) {
+        try {
+            groupservice.joinGroup(request.getReferralCode(), request.getUserId());
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Failed to join group: " + e.getMessage());
+        }
+    }
 }
+
+class JoinGroupRequest {
+    private String referralCode;
+    private Long userId;
+
+    // Getters and setters
+
+    public String getReferralCode(){
+        return referralCode;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
 }

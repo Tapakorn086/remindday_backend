@@ -9,6 +9,7 @@ import com.example.todoapp.model.Group;
 @Repository
 public interface GroupRepository extends JpaRepository<Group, Long> {
     boolean existsByReferralCode(String referralCode);
+    Group findByReferralCode(String referralCode);
     List<Group> findByMembersId(Long userId);
 
 }
