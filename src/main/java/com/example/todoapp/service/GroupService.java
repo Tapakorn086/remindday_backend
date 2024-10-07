@@ -61,11 +61,6 @@ public class GroupService {
 
         group.getMembers().add(user);
 
-        if (user.getGroups() == null) {
-            user.setGroups(new HashSet<>());
-        }
-        user.getGroups().add(group);
-
         groupRepository.save(group);
         userRepository.save(user);
     }

@@ -1,5 +1,6 @@
 package com.example.todoapp.model;
 
+import java.util.HashSet;
 import java.util.Set;
 import jakarta.persistence.*;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -21,9 +22,10 @@ public class User {
     @JoinColumn(name = "login_id", referencedColumnName = "id")
     private Login login;
 
+    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "members")
     @JsonIgnore
-    @ManyToMany(mappedBy = "members", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    private Set<Group> groups;
+    private Set<Group> groups = new HashSet<>();
+    
     // Getters and setters
 
     public Long getId() {
@@ -72,5 +74,12 @@ public class User {
 
     public void setGroups(Set<Group> groups) {
         this.groups = groups;
+    }
+    public Set<Long> getGroupIds() {
+        Set<Long> groupIds = new HashSet<>();
+        for (Group group : groups) {
+            groupIds.add(group.getId());
+        }
+        return groupIds;
     }
 }
