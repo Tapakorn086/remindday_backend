@@ -1,5 +1,6 @@
 package com.example.todoapp.model;
 
+import java.util.HashSet;
 import java.util.Set;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -14,29 +15,29 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "groups")
 public class Group {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
+
     private String referralCode;
     private String name;
     private String description;
 
     private Long ownerId;
-    
+
     @ManyToMany
     @JoinTable(
-        name = "group_members",
-        joinColumns = @JoinColumn(name = "group_id"),
-        inverseJoinColumns = @JoinColumn(name = "user_id")
+            name = "group_members",
+            joinColumns = @JoinColumn(name = "group_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id")
     )
-    private Set<User> members;
-    
+    private Set<User> members = new HashSet<>();
+
     @OneToMany(mappedBy = "group")
     private Set<Todo> todos;
 
     // Getters and setters
-
     public Set<Todo> getTodos() {
         return todos;
     }

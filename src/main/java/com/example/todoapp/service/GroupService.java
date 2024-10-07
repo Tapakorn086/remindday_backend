@@ -1,12 +1,15 @@
 package com.example.todoapp.service;
 
+import java.util.HashSet;
 import java.util.Random;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.todoapp.repository.GroupRepository;
 import com.example.todoapp.model.Group;
+import com.example.todoapp.model.User;
 import com.example.todoapp.repository.UserRepository;
 
 @Service
@@ -27,14 +30,18 @@ public class GroupService {
         }
         String referralCode = generateUniqueReferralCode();
         data.setReferralCode(referralCode);
+        User owner = userRepository.findById(data.getOwnerId()).orElseThrow(() -> new RuntimeException("Owner not found"));
+        Set<User> members = new HashSet<>();
+        members.add(owner);
+        data.setMembers(members);
         groupRepository.save(data);
-        return data; 
+        return data;
     }
 
     private String generateUniqueReferralCode() {
         String referralCode;
         do {
-            referralCode = generateRandomNumberString(6); 
+            referralCode = generateRandomNumberString(6);
         } while (isReferralCodeExists(referralCode));
         return referralCode;
     }
