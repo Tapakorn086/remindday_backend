@@ -21,6 +21,8 @@ public class Group {
     private String referralCode;
     private String name;
     private String description;
+
+    private Long ownerId;
     
     @ManyToMany
     @JoinTable(
@@ -74,11 +76,20 @@ public class Group {
     public void setId(Long id) {
         this.id = id;
     }
+
     public String getDescription() {
         return description;
     }
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Long getOwnerId() { // Getter สำหรับ ownerId
+        return ownerId;
+    }
+
+    public void setOwnerId(Long ownerId) { // Setter สำหรับ ownerId
+        this.ownerId = ownerId;
     }
 }
