@@ -24,7 +24,7 @@ public class UserService {
     }
 
     public User createUser(User data) {
-        Optional<Login> optionalLogin = loginRepository.findById(data.getLogin().getId()); // ค้นหา Login โดย ID
+        Optional<Login> optionalLogin = loginRepository.findById(data.getLogin().getId());
 
         if (optionalLogin.isPresent()) {
             Login login = optionalLogin.get();
@@ -32,7 +32,6 @@ public class UserService {
         } else {
             throw new RuntimeException("Login ID not found: " + data.getLogin().getId());
         }
-
         return userRepository.save(data);
     }
 }
