@@ -109,4 +109,9 @@ public class Todo {
     public String getIdDevice() {
         return idDevice;
     }
+
+    public Long getId() {
+        return id;
+    }
+
 }
