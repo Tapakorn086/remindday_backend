@@ -16,6 +16,8 @@ public class Todo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    private String idDevice;
     
     private String title;
     public String getTitle() {
@@ -90,6 +92,7 @@ public class Todo {
         this.status = status;
     }
 
+    
     @ManyToOne
     @JoinColumn(name = "group_id")
     private Group group;
@@ -97,6 +100,13 @@ public class Todo {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
-
+    
     // Getters and setters
+    
+    public void setIdDevice(String idDevice){
+        this.idDevice = idDevice;
+    }
+    public String getIdDevice() {
+        return idDevice;
+    }
 }

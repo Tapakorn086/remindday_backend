@@ -33,40 +33,14 @@ public class TodoController {
         return todoService.createTodo(data);
     }
 
-    // API สำหรับดึงรายการ Todo ทั้งหมด
-    @GetMapping("/gettodo")
-    public List<Todo> getAllTodos() {
-        return todoService.getAllTodos();// GetTodoService
-    }
-
-    // API สำหรับดึงรายการ Todo โดย ID
-    @GetMapping("/gettodo/{id}")
-    public ResponseEntity<Todo> getTodoById(@PathVariable Long id) {
-        Todo todo = todoService.getTodoById(id);
+    @GetMapping("/gettodo/{idDevice}")
+    public ResponseEntity<List<Todo>> getTodoByIdDevice(@PathVariable String idDevice) {
+        List<Todo> todo = todoService.getTodoByIdDevices(idDevice);
         if (todo != null) {
             return ResponseEntity.ok(todo);
         } else {
             return ResponseEntity.notFound().build();
         }
-    }
-        // API สำหรับค้นหา Todo ตามชื่อเรื่อง
-    @GetMapping("/gettodosByTitle")
-    public List<Todo> getTodosByTitle(@RequestParam String title) {
-        return todoService.getTodosByTitle(title);
-        //GET /api/todosByTitle?title=ชื่อเรื่องที่ต้องการค้นหา
-        // {
-        //     "id": 1,
-        //     "title": "Learn Java",
-        //     "description": "Study Java programming.",
-        //     "type": "Education",
-        //     "importance": "High",
-        //     "startDate": "2024-10-01",
-        //     "startTime": "09:00",
-        //     "notifyMinutesBefore": 30,
-        //     "status": "Pending",
-        //     "group": null,  // หรือมีข้อมูลของ Group ถ้ามีการเชื่อมโยง
-        //     "user": null    // หรือมีข้อมูลของ User ถ้ามีการเชื่อมโยง
-        // }
     }
 
 }
