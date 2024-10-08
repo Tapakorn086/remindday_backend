@@ -44,17 +44,36 @@ public class TodoController {
         }
     }
 
- @PutMapping("/updatetodo/{todoId}")
+    @PutMapping("/updatetodo/{todoId}")
     public ResponseEntity<Todo> updateTodoStatus(
             @PathVariable Long todoId,
-            @RequestParam String status,
-            @RequestParam String idDevice) {
-        Todo updatedTodo = todoService.updateStatusByTodoId(todoId, status, idDevice);
+            @RequestBody UpdateTodoRequest request) {
+        Todo updatedTodo = todoService.updateStatusByTodoId(todoId, request.getStatus(), request.getIdDevice());
         if (updatedTodo != null) {
             return ResponseEntity.ok(updatedTodo);
         } else {
             return ResponseEntity.notFound().build();
         }
     }
+}
 
+class UpdateTodoRequest {
+    private String status;
+    private String idDevice;
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getIdDevice() {
+        return idDevice;
+    }
+
+    public void setIdDevice(String idDevice) {
+        this.idDevice = idDevice;
+    }
 }
