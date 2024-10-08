@@ -1,18 +1,20 @@
 package com.example.todoapp.controller;
 
+import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
 //import org.hibernate.mapping.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.todoapp.model.Todo;
@@ -22,6 +24,7 @@ import com.example.todoapp.service.TodoService;
 @RestController
 @RequestMapping("/api")
 public class TodoController {
+
     private final TodoService todoService;
 
     @Autowired
@@ -34,11 +37,14 @@ public class TodoController {
         return todoService.createTodo(data);
     }
 
-    @GetMapping("/gettodo/{idDevice}")
-    public ResponseEntity<List<Todo>> getTodoByIdDevice(@PathVariable String idDevice) {
-        List<Todo> todo = todoService.getTodoByIdDevices(idDevice);
-        if (todo != null) {
-            return ResponseEntity.ok(todo);
+    @GetMapping("/gettodo")
+    public ResponseEntity<List<Todo>> getTodoByDateAndDevice(
+            @ModelAttribute TodoRequest request) {
+
+        List<Todo> todos = todoService.getTodoByDateAndDevice(request.getStartDate(), request.getIdDevice());
+
+        if (todos != null && !todos.isEmpty()) {
+            return ResponseEntity.ok(todos);
         } else {
             return ResponseEntity.notFound().build();
         }
@@ -47,7 +53,7 @@ public class TodoController {
     @PutMapping("/updatetodo/{todoId}")
     public ResponseEntity<Todo> updateTodoStatus(
             @PathVariable Long todoId,
-            @RequestBody UpdateTodoRequest request) {
+            @RequestBody TodoRequest request) {
         Todo updatedTodo = todoService.updateStatusByTodoId(todoId, request.getStatus(), request.getIdDevice());
         if (updatedTodo != null) {
             return ResponseEntity.ok(updatedTodo);
@@ -57,9 +63,13 @@ public class TodoController {
     }
 }
 
-class UpdateTodoRequest {
+class TodoRequest {
+
     private String status;
     private String idDevice;
+    
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    private LocalDate startDate;
 
     public String getStatus() {
         return status;
@@ -75,5 +85,13 @@ class UpdateTodoRequest {
 
     public void setIdDevice(String idDevice) {
         this.idDevice = idDevice;
+    }
+
+    public LocalDate getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(LocalDate startDate) {
+        this.startDate = startDate;
     }
 }

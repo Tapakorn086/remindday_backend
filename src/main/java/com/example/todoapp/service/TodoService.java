@@ -1,5 +1,6 @@
 package com.example.todoapp.service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,9 +22,8 @@ public class TodoService {
         return todoRepository.save(data);
     }
 
-    public List<Todo> getTodoByIdDevices(String idDevice) {
-        return todoRepository.findAllByIdDevice(idDevice);
-   
+    public List<Todo> getTodoByDateAndDevice(LocalDate startDate, String idDevice) {
+        return todoRepository.findByIdDeviceAndStartDateGreaterThanEqual(idDevice, startDate);
     }
     public Todo updateStatusByTodoId(Long id, String status, String idDevice) {
         Optional<Todo> todoOptional = todoRepository.findByIdAndIdDevice(id, idDevice);

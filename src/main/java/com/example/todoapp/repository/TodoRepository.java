@@ -1,4 +1,5 @@
 package com.example.todoapp.repository;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -11,7 +12,7 @@ import com.example.todoapp.model.Todo;
 @Repository
 public interface TodoRepository extends JpaRepository<Todo, Long> {
 
-    List<Todo> findAllByIdDevice(String idDevice);
+    List<Todo> findByIdDeviceAndStartDateGreaterThanEqual(String idDevice, LocalDate startDate);
     Optional<Todo> findByIdAndIdDevice(Long id, String idDevice);
 
 }
