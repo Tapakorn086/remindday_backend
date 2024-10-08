@@ -1,9 +1,11 @@
 package com.example.todoapp.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import com.example.todoapp.repository.TodoRepository;
 import com.example.todoapp.model.Todo;
 
@@ -22,5 +24,14 @@ public class TodoService {
     public List<Todo> getTodoByIdDevices(String idDevice) {
         return todoRepository.findAllByIdDevice(idDevice);
    
+    }
+    public Todo updateStatusByTodoId(Long id, String status, String idDevice) {
+        Optional<Todo> todoOptional = todoRepository.findByIdAndIdDevice(id, idDevice);
+        if (todoOptional.isPresent()) {
+            Todo todo = todoOptional.get();
+            todo.setStatus(status);
+            return todoRepository.save(todo);
+        }
+        return null;
     }
 }

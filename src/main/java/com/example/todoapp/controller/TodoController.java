@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -38,6 +39,19 @@ public class TodoController {
         List<Todo> todo = todoService.getTodoByIdDevices(idDevice);
         if (todo != null) {
             return ResponseEntity.ok(todo);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+ @PutMapping("/updatetodo/{todoId}")
+    public ResponseEntity<Todo> updateTodoStatus(
+            @PathVariable Long todoId,
+            @RequestParam String status,
+            @RequestParam String idDevice) {
+        Todo updatedTodo = todoService.updateStatusByTodoId(todoId, status, idDevice);
+        if (updatedTodo != null) {
+            return ResponseEntity.ok(updatedTodo);
         } else {
             return ResponseEntity.notFound().build();
         }
