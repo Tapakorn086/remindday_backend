@@ -34,4 +34,14 @@ public class TodoService {
         }
         return null;
     }
+
+    public List<Todo> updateStatusByDeviceId(String idDevice, String status) {
+        List<Todo> todos = todoRepository.findByIdDevice(idDevice);
+        for (Todo todo : todos) {
+            todo.setStatus(status);
+        }
+        return todoRepository.saveAll(todos);
+    }
+    
+    
 }

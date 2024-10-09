@@ -14,5 +14,6 @@ public interface TodoRepository extends JpaRepository<Todo, Long> {
 
     List<Todo> findByIdDeviceAndStartDateGreaterThanEqual(String idDevice, LocalDate startDate);
     Optional<Todo> findByIdAndIdDevice(Long id, String idDevice);
+    List<Todo> findByIdDevice(String idDevice);
 
 }

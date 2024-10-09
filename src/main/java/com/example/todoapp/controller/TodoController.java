@@ -61,6 +61,19 @@ public class TodoController {
             return ResponseEntity.notFound().build();
         }
     }
+    @PutMapping("/todo/device/{idDevice}/status")
+    public ResponseEntity<List<Todo>> updateTodoStatusByDevice(
+            @PathVariable String idDevice,
+            @RequestBody Todo statusRequest) {
+        List<Todo> updatedTodos = todoService.updateStatusByDeviceId(idDevice, statusRequest.getStatus());
+        if (updatedTodos != null && !updatedTodos.isEmpty()) {
+            return ResponseEntity.ok(updatedTodos);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+   
+
 }
 
 class TodoRequest {
@@ -95,3 +108,4 @@ class TodoRequest {
         this.startDate = startDate;
     }
 }
+
