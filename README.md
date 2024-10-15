@@ -25,7 +25,7 @@ Follow the steps below to set up and run the project:
 2. **Build the Project**
   ```bash
   mvn clean install
-```
+  ```
 
 if build fails, Try
 ```bash
